@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Univariate function plotter">
+    <meta name="author" content="Semidán Robaina Estévez">
+    <meta name="keywords" content="function, plot, univariate, web app">
+
+    <!-- Set some CSS styles: set color gradient and ensure it covers the whole page -->
+    <style>
+        body {
+            /*min-height: 100%;*/
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(#E6E6E6, #424242);
+        }
+        html {
+            min-height: 100%;
+        }
+    </style>
+
+    <!-- Allows MathJax in the document: Note configuration changed to "SVG to avoid interference with plot.ly which renders in SVG" -->
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG"></script>
+
+    <!-- Allows ploting in the document (Plotly.js) -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Imports math.js library -->
+    <script src="https://unpkg.com/mathjs@5.0.0/dist/math.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <title>Function Plotter</title>
+
+    <!-- Include favicon as base64 encoding-->
+    <link rel="shortcut icon" id="favicon" type="image/x-icon"  href="data:image/jpeg;base64,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" />
+
+  </head>
+  <body>
+
+    <br />
+    <div class="container">
+      <div class="jumbotron" style="background-color:#E6E6E6">
+        <div class="row">
+          <div class="col-md-8" id="tag1">
+             <h1>Function plotter</h1>
+             <br />
+             <p style="font-size:16pt">Plot univariate functions within a specified domain, <i>i.e.</i> \(f(x):x \in [x_{min},x_{max}]\)</p>
+          </div>
+
+          <div class="col-md-4" id="tag2">
+
+            <form class="form" id="form" novalidate>
+              <div class="form-row">
+                <label for="form" style="font-size:16pt;">\(f(x)=\)</label>
+                <input type="text" class="form-control" id="eq" value="1/sqrt(2pi) * e^(-x^2/2)">
+              </div>
+              <div class="form-row">
+                <div class="col">
+                  <label for="form" style="font-size:16pt;">\(x_{min}=\)</label>
+                  <input type="number" class="form-control" id="minval" value="-4">
+                </div>
+                <div class="col">
+                  <label for="form" style="font-size:16pt;">\(x_{max}=\)</label>
+                  <input type="number" class="form-control" id="maxval" value="4">
+                </div>
+              </div>
+              <br />
+              <div class="form-row">
+                 <button type="submit" class="btn btn-primary mb-2">Plot</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+          <div class="col-md-12" id="plot1">
+            <div class="responsive-plot" id="plot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container"
+      <footer>
+        <p style="font-size:14pt; color:white;">Created by: <a href="mailto:tintanjarafe@gmail.com" style="color: white">Semidán Robaina Estévez</a></p>
+        <p style="color:white;">Using libraries: <a href="https://plot.ly/javascript/">plotly.js</a>, <a href="https://www.mathjax.org/">MathJax</a>, <a href="http://mathjs.org/">math.js</a> and <a href="https://getbootstrap.com/">Bootstrap</a>.</p>
+      </footer>
+    </div>
+
+    <!-- Evaluate expression and plot result -->
+    <script>
+      function draw() {
+        try {
+          // compile the expression
+          const expression = document.getElementById('eq').value
+          const node = math.parse(expression)
+          const expr = node.compile()
+
+          // parse input
+          const xmin = document.getElementById('minval').value
+          const xmax = document.getElementById('maxval').value
+
+          // evaluate the expression repeatedly for different values of x
+          const xValues = math.range(parseFloat(xmin), parseFloat(xmax), 0.01).toArray()
+          const yValues = xValues.map(function (x) {
+            return expr.eval({x: x})
+          })
+
+          // render the plot using plotly
+          const trace1 = {
+            x: xValues,
+            y: yValues,
+            mode: 'lines',
+            line: {
+             //color: 'rgb(000, 000, 100)',
+             width: 3
+            }
+          }
+          const data = [trace1]
+          const layout = {
+            title:'$$f(x) = ' + node.toTex() + '$$',
+            xaxis:{title: '$$x$$'},
+            yaxis:{title: '$$f(x)$$'}
+          }
+
+          var plot = document.getElementById('plot')
+          Plotly.newPlot(plot, data, layout)
+
+        }
+        catch (err) {
+          console.error(err)
+          alert(err)
+        }
+      }
+
+      document.getElementById('form').onsubmit = function (event) {
+        event.preventDefault()
+        draw()
+      }
+
+      draw()
+    </script>
+
+    <!-- Prevents MathJax to break after reloading page -->
+    <script type="text/javascript">
+      if (window.MathJax) {
+        MathJax.Hub.Queue(
+          ["Typeset",MathJax.Hub]
+        );
+      }
+    </script>
+
+  </body>
+<html/>
