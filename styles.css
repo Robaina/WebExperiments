@@ -7,6 +7,10 @@ body {
 html {
     min-height: 100%;
 }
-/* #main_container {
-  height: 40vh;
-} */
+footer {
+  margin-top: -2vh;
+}
+a {
+  text-decoration: none;
+  color: rgb(88, 201, 237);
+}
