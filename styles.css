@@ -15,3 +15,13 @@ a {
   text-decoration: none;
   color: rgb(88, 201, 237);
 }
+#tag2 {
+  margin-top: -3%;
+}
+#submit_button {
+  margin-top: 26%;
+  width: 100%;
+}
+#submit_row {
+  margin-top: -5%;
+}

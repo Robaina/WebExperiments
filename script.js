@@ -1,3 +1,5 @@
+// Univariate function plotter
+// Semidan Robaina Estévez, 2018
 function draw() {
   try {
     // compile the expression
@@ -8,9 +10,11 @@ function draw() {
     // parse input
     const xmin = document.getElementById('minval').value;
     const xmax = document.getElementById('maxval').value;
+    const x_step_size = document.getElementById('step_size').value;
 
     // evaluate the expression repeatedly for different values of x
-    const xValues = math.range(parseFloat(xmin), parseFloat(xmax), 0.01).toArray();
+    const xValues = math.range(
+      parseFloat(xmin), parseFloat(xmax), x_step_size).toArray();
     const yValues = xValues.map(function (x) {
       return expr.eval({x: x})
     });

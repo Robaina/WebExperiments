@@ -58,8 +58,14 @@
                 </div>
               </div>
               <br />
-              <div class="form-row">
-                 <button type="submit" class="btn btn-primary mb-2">Plot</button>
+              <div class="form-row" id="submit_row">
+                <div class="col">
+                  <label for="form" style="font-size:16pt;">\(x_{step}=\)</label>
+                  <input type="number" class="form-control" id="step_size" value="0.01">
+                </div>
+                <div class="col">
+                  <button type="submit" class="btn btn-primary mb-2" id="submit_button">Plot</button>
+                </div>
               </div>
             </form>
 
